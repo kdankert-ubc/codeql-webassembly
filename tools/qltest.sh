@@ -4,8 +4,8 @@ set -eu
 
 exec "${CODEQL_DIST}/codeql" database index-files \
     --prune="**/*.testproj" \
-    --include-extension=.kd \
+    --include-extension=.wat \
     --size-limit=5m \
-    --language=kaleidoscope \
+    --language=webassembly \
     --working-dir=.\
-    "$CODEQL_EXTRACTOR_KALEIDOSCOPE_WIP_DATABASE"
+    "$CODEQL_EXTRACTOR_WEBASSEMBLY_WIP_DATABASE"

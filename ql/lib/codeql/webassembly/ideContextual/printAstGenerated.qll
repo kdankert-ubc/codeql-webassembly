@@ -1,5 +1,5 @@
 /**
- * Provides queries to pretty-print an Kaleidoscope abstract syntax tree as a graph.
+ * Provides queries to pretty-print an webassembly abstract syntax tree as a graph.
  *
  * This representation is based on the TreeSitter auto-generated AST.
  *
@@ -8,7 +8,7 @@
  * to hold for only the AST nodes you wish to view.
  */
 
-import codeql.kaleidoscope.ast.internal.TreeSitter::Kaleidoscope
+import codeql.webassembly.ast.internal.TreeSitter::WebAssembly
 private import codeql.Locations
 
 /**

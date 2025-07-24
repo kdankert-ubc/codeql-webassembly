@@ -1,4 +1,4 @@
-private import codeql.kaleidoscope.Ast
+private import codeql.webassembly.Ast
 private import codeql.controlflow.Cfg as CfgShared
 private import codeql.Locations
 
@@ -91,7 +91,7 @@ module CfgScope {
 }
 
 private module Implementation implements CfgShared::InputSig<Location> {
-  import codeql.kaleidoscope.Ast
+  import codeql.webassembly.Ast
   import Completion
   import CfgScope
 

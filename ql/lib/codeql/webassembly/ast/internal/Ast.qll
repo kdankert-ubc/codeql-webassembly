@@ -3,29 +3,29 @@ private import TreeSitter
 
 cached
 private newtype TAstNode =
-  TBinaryOpExpression(Kaleidoscope::BinaryOpExpression e) or
-  TBinaryPrototype(Kaleidoscope::BinaryPrototype e) or
-  TConditionalExpression(Kaleidoscope::ConditionalExpression e) or
-  TExternalDeclaration(Kaleidoscope::ExternalDeclaration e) or
-  TForExpression(Kaleidoscope::ForExpression e) or
-  TFunctionCallExpression(Kaleidoscope::FunctionCallExpression e) or
-  TFunctionDefinition(Kaleidoscope::FunctionDefinition e) or
-  TFunctionPrototype(Kaleidoscope::FunctionPrototype e) or
-  TIdentifier(Kaleidoscope::Identifier e) or
-  TInitializer(Kaleidoscope::Initializer e) or
-  TNumberLiteral(Kaleidoscope::Number e) or
-  TDefaultStep(Kaleidoscope::ReservedWord e) {
+  TBinaryOpExpression(WebAssembly::BinaryOpExpression e) or
+  TBinaryPrototype(WebAssembly::BinaryPrototype e) or
+  TConditionalExpression(WebAssembly::ConditionalExpression e) or
+  TExternalDeclaration(WebAssembly::ExternalDeclaration e) or
+  TForExpression(WebAssembly::ForExpression e) or
+  TFunctionCallExpression(WebAssembly::FunctionCallExpression e) or
+  TFunctionDefinition(WebAssembly::FunctionDefinition e) or
+  TFunctionPrototype(WebAssembly::FunctionPrototype e) or
+  TIdentifier(WebAssembly::Identifier e) or
+  TInitializer(WebAssembly::Initializer e) or
+  TNumberLiteral(WebAssembly::Number e) or
+  TDefaultStep(WebAssembly::ReservedWord e) {
     e.getValue() = "in" and
-    e.getParent() = any(Kaleidoscope::ForExpression f | not exists(f.getUpdate()))
+    e.getParent() = any(WebAssembly::ForExpression f | not exists(f.getUpdate()))
   } or
-  TParenExpression(Kaleidoscope::ParenExpression e) or
-  TProgram(Kaleidoscope::Program e) or
-  TUnaryOpExpression(Kaleidoscope::UnaryOpExpression e) or
-  TUnaryPrototype(Kaleidoscope::UnaryPrototype e) or
-  TVarInExpression(Kaleidoscope::VarInExpression e) or
-  TVariableExpression(Kaleidoscope::VariableExpression e)
+  TParenExpression(WebAssembly::ParenExpression e) or
+  TProgram(WebAssembly::Program e) or
+  TUnaryOpExpression(WebAssembly::UnaryOpExpression e) or
+  TUnaryPrototype(WebAssembly::UnaryPrototype e) or
+  TVarInExpression(WebAssembly::VarInExpression e) or
+  TVariableExpression(WebAssembly::VariableExpression e)
 
-Kaleidoscope::AstNode toTreeSitter(TAstNode node) {
+WebAssembly::AstNode toTreeSitter(TAstNode node) {
   TBinaryOpExpression(result) = node
   or
   TBinaryPrototype(result) = node
@@ -80,7 +80,7 @@ private class TExpression =
 abstract class ExpressionImpl extends StatementImpl, TExpression { }
 
 class BinaryOpExpressionImpl extends ExpressionImpl, TBinaryOpExpression {
-  private Kaleidoscope::BinaryOpExpression node;
+  private WebAssembly::BinaryOpExpression node;
 
   BinaryOpExpressionImpl() { this = TBinaryOpExpression(node) }
 
@@ -106,7 +106,7 @@ class BinaryOpExpressionImpl extends ExpressionImpl, TBinaryOpExpression {
 }
 
 class ConditionalExpressionImpl extends ExpressionImpl, TConditionalExpression {
-  private Kaleidoscope::ConditionalExpression node;
+  private WebAssembly::ConditionalExpression node;
 
   ConditionalExpressionImpl() { this = TConditionalExpression(node) }
 
@@ -132,7 +132,7 @@ class ConditionalExpressionImpl extends ExpressionImpl, TConditionalExpression {
 }
 
 class ForExpressionImpl extends ExpressionImpl, TForExpression {
-  private Kaleidoscope::ForExpression node;
+  private WebAssembly::ForExpression node;
 
   ForExpressionImpl() { this = TForExpression(node) }
 
@@ -160,14 +160,14 @@ class ForExpressionImpl extends ExpressionImpl, TForExpression {
     toTreeSitter(result) = node.getUpdate()
     or
     not exists(node.getUpdate()) and
-    result = TDefaultStep(any(Kaleidoscope::ReservedWord i | i.getParent() = node))
+    result = TDefaultStep(any(WebAssembly::ReservedWord i | i.getParent() = node))
   }
 
   ExpressionImpl getBody() { toTreeSitter(result) = node.getBody() }
 }
 
 class FunctionCallExpressionImpl extends ExpressionImpl, TFunctionCallExpression {
-  private Kaleidoscope::FunctionCallExpression node;
+  private WebAssembly::FunctionCallExpression node;
 
   FunctionCallExpressionImpl() { this = TFunctionCallExpression(node) }
 
@@ -199,7 +199,7 @@ abstract class NumberImpl extends ExpressionImpl, TNumber {
 }
 
 class NumberLiteralImpl extends NumberImpl, TNumberLiteral {
-  private Kaleidoscope::Number node;
+  private WebAssembly::Number node;
 
   NumberLiteralImpl() { this = TNumberLiteral(node) }
 
@@ -211,7 +211,7 @@ class NumberLiteralImpl extends NumberImpl, TNumberLiteral {
 }
 
 class DefaultStepImpl extends NumberImpl, TDefaultStep {
-  private Kaleidoscope::ReservedWord node;
+  private WebAssembly::ReservedWord node;
 
   DefaultStepImpl() { this = TDefaultStep(node) }
 
@@ -223,7 +223,7 @@ class DefaultStepImpl extends NumberImpl, TDefaultStep {
 }
 
 class ParenExpressionImpl extends ExpressionImpl, TParenExpression {
-  private Kaleidoscope::ParenExpression node;
+  private WebAssembly::ParenExpression node;
 
   ParenExpressionImpl() { this = TParenExpression(node) }
 
@@ -241,7 +241,7 @@ class ParenExpressionImpl extends ExpressionImpl, TParenExpression {
 }
 
 class UnaryOpExpressionImpl extends ExpressionImpl, TUnaryOpExpression {
-  private Kaleidoscope::UnaryOpExpression node;
+  private WebAssembly::UnaryOpExpression node;
 
   UnaryOpExpressionImpl() { this = TUnaryOpExpression(node) }
 
@@ -263,7 +263,7 @@ class UnaryOpExpressionImpl extends ExpressionImpl, TUnaryOpExpression {
 }
 
 class VarInExpressionImpl extends ExpressionImpl, TVarInExpression {
-  private Kaleidoscope::VarInExpression node;
+  private WebAssembly::VarInExpression node;
 
   VarInExpressionImpl() { this = TVarInExpression(node) }
 
@@ -285,7 +285,7 @@ class VarInExpressionImpl extends ExpressionImpl, TVarInExpression {
 }
 
 class VariableExpressionImpl extends ExpressionImpl, TVariableExpression {
-  private Kaleidoscope::VariableExpression node;
+  private WebAssembly::VariableExpression node;
 
   VariableExpressionImpl() { this = TVariableExpression(node) }
 
@@ -303,7 +303,7 @@ class VariableExpressionImpl extends ExpressionImpl, TVariableExpression {
 }
 
 class IdentifierImpl extends AstNodeImpl, TIdentifier {
-  private Kaleidoscope::Identifier node;
+  private WebAssembly::Identifier node;
 
   IdentifierImpl() { this = TIdentifier(node) }
 
@@ -319,7 +319,7 @@ class IdentifierImpl extends AstNodeImpl, TIdentifier {
 }
 
 class InitializerImpl extends AstNodeImpl, TInitializer {
-  private Kaleidoscope::Initializer node;
+  private WebAssembly::Initializer node;
 
   InitializerImpl() { this = TInitializer(node) }
 
@@ -355,7 +355,7 @@ abstract class PrototypeImpl extends AstNodeImpl, TPrototype {
 }
 
 class BinaryPrototypeImpl extends PrototypeImpl, TBinaryPrototype {
-  private Kaleidoscope::BinaryPrototype node;
+  private WebAssembly::BinaryPrototype node;
 
   BinaryPrototypeImpl() { this = TBinaryPrototype(node) }
 
@@ -379,7 +379,7 @@ class BinaryPrototypeImpl extends PrototypeImpl, TBinaryPrototype {
 }
 
 class UnaryPrototypeImpl extends PrototypeImpl, TUnaryPrototype {
-  private Kaleidoscope::UnaryPrototype node;
+  private WebAssembly::UnaryPrototype node;
 
   UnaryPrototypeImpl() { this = TUnaryPrototype(node) }
 
@@ -399,7 +399,7 @@ class UnaryPrototypeImpl extends PrototypeImpl, TUnaryPrototype {
 }
 
 class FunctionPrototypeImpl extends PrototypeImpl, TFunctionPrototype {
-  private Kaleidoscope::FunctionPrototype node;
+  private WebAssembly::FunctionPrototype node;
 
   FunctionPrototypeImpl() { this = TFunctionPrototype(node) }
 
@@ -425,7 +425,7 @@ abstract class DeclarationImpl extends StatementImpl, TDeclaration {
 }
 
 class FunctionDefinitionImpl extends DeclarationImpl, TFunctionDefinition {
-  private Kaleidoscope::FunctionDefinition node;
+  private WebAssembly::FunctionDefinition node;
 
   FunctionDefinitionImpl() { this = TFunctionDefinition(node) }
 
@@ -447,7 +447,7 @@ class FunctionDefinitionImpl extends DeclarationImpl, TFunctionDefinition {
 }
 
 class ExternalDeclarationImpl extends DeclarationImpl, TExternalDeclaration {
-  private Kaleidoscope::ExternalDeclaration node;
+  private WebAssembly::ExternalDeclaration node;
 
   ExternalDeclarationImpl() { this = TExternalDeclaration(node) }
 
@@ -465,7 +465,7 @@ private class TStatement = TDeclaration or TExpression;
 abstract class StatementImpl extends AstNodeImpl, TStatement { }
 
 class ProgramImpl extends AstNodeImpl, TProgram {
-  private Kaleidoscope::Program node;
+  private WebAssembly::Program node;
 
   ProgramImpl() { this = TProgram(node) }
 

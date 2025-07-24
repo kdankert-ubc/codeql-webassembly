@@ -1,0 +1,272 @@
+// CodeQL database schema for WebAssembly
+// Automatically generated from the tree-sitter grammar; do not edit
+
+/*- Files and folders -*/
+
+/**
+ * The location of an element.
+ * The location spans column `startcolumn` of line `startline` to
+ * column `endcolumn` of line `endline` in file `file`.
+ * For more information, see
+ * [Locations](https://codeql.github.com/docs/writing-codeql-queries/providing-locations-in-codeql-queries/).
+ */
+locations_default(
+  unique int id: @location_default,
+  int file: @file ref,
+  int beginLine: int ref,
+  int beginColumn: int ref,
+  int endLine: int ref,
+  int endColumn: int ref
+);
+
+files(
+  unique int id: @file,
+  string name: string ref
+);
+
+folders(
+  unique int id: @folder,
+  string name: string ref
+);
+
+@container = @file | @folder
+
+containerparent(
+  int parent: @container ref,
+  unique int child: @container ref
+);
+
+/*- Source location prefix -*/
+
+/**
+ * The source location of the snapshot.
+ */
+sourceLocationPrefix(string prefix : string ref);
+
+/*- Diagnostic messages -*/
+
+diagnostics(
+  unique int id: @diagnostic,
+  int severity: int ref,
+  string error_tag: string ref,
+  string error_message: string ref,
+  string full_error_message: string ref,
+  int location: @location_default ref
+);
+
+/*- Diagnostic messages: severity -*/
+
+case @diagnostic.severity of
+  10 = @diagnostic_debug
+| 20 = @diagnostic_info
+| 30 = @diagnostic_warning
+| 40 = @diagnostic_error
+;
+
+/*- YAML -*/
+
+#keyset[parent, idx]
+yaml (unique int id: @yaml_node,
+      int kind: int ref,
+      int parent: @yaml_node_parent ref,
+      int idx: int ref,
+      string tag: string ref,
+      string tostring: string ref);
+
+case @yaml_node.kind of
+  0 = @yaml_scalar_node
+| 1 = @yaml_mapping_node
+| 2 = @yaml_sequence_node
+| 3 = @yaml_alias_node
+;
+
+@yaml_collection_node = @yaml_mapping_node | @yaml_sequence_node;
+
+@yaml_node_parent = @yaml_collection_node | @file;
+
+yaml_anchors (unique int node: @yaml_node ref,
+              string anchor: string ref);
+
+yaml_aliases (unique int alias: @yaml_alias_node ref,
+              string target: string ref);
+
+yaml_scalars (unique int scalar: @yaml_scalar_node ref,
+              int style: int ref,
+              string value: string ref);
+
+yaml_errors (unique int id: @yaml_error,
+             string message: string ref);
+
+yaml_locations(unique int locatable: @yaml_locatable ref,
+             int location: @location_default ref);
+
+@yaml_locatable = @yaml_node | @yaml_error;
+
+/*- WebAssembly dbscheme -*/
+@webassembly_underscore_expression = @webassembly_binary_op_expression | @webassembly_underscore_primary_expression
+
+@webassembly_underscore_primary_expression = @webassembly_conditional_expression | @webassembly_for_expression | @webassembly_function_call_expression | @webassembly_paren_expression | @webassembly_token_number | @webassembly_unary_op_expression | @webassembly_var_in_expression | @webassembly_variable_expression
+
+@webassembly_underscore_prototype = @webassembly_binary_prototype | @webassembly_function_prototype | @webassembly_unary_prototype
+
+@webassembly_underscore_repl = @webassembly_external_declaration | @webassembly_function_definition | @webassembly_underscore_expression
+
+webassembly_binary_op_expression_def(
+  unique int id: @webassembly_binary_op_expression,
+  int lhs: @webassembly_underscore_expression ref,
+  int operator: @webassembly_token_identifier ref,
+  int rhs: @webassembly_underscore_expression ref
+);
+
+#keyset[webassembly_binary_prototype, index]
+webassembly_binary_prototype_argument(
+  int webassembly_binary_prototype: @webassembly_binary_prototype ref,
+  int index: int ref,
+  unique int argument: @webassembly_token_identifier ref
+);
+
+webassembly_binary_prototype_precedence(
+  unique int webassembly_binary_prototype: @webassembly_binary_prototype ref,
+  unique int precedence: @webassembly_token_number ref
+);
+
+webassembly_binary_prototype_def(
+  unique int id: @webassembly_binary_prototype,
+  int name: @webassembly_token_identifier ref
+);
+
+webassembly_conditional_expression_def(
+  unique int id: @webassembly_conditional_expression,
+  int condition: @webassembly_underscore_expression ref,
+  int else: @webassembly_underscore_expression ref,
+  int then: @webassembly_underscore_expression ref
+);
+
+webassembly_external_declaration_def(
+  unique int id: @webassembly_external_declaration,
+  int prototype: @webassembly_underscore_prototype ref
+);
+
+webassembly_for_expression_update(
+  unique int webassembly_for_expression: @webassembly_for_expression ref,
+  unique int update: @webassembly_underscore_expression ref
+);
+
+webassembly_for_expression_def(
+  unique int id: @webassembly_for_expression,
+  int body: @webassembly_underscore_expression ref,
+  int condition: @webassembly_underscore_expression ref,
+  int initializer: @webassembly_initializer ref
+);
+
+#keyset[webassembly_function_call_expression, index]
+webassembly_function_call_expression_argument(
+  int webassembly_function_call_expression: @webassembly_function_call_expression ref,
+  int index: int ref,
+  unique int argument: @webassembly_underscore_expression ref
+);
+
+webassembly_function_call_expression_def(
+  unique int id: @webassembly_function_call_expression,
+  int callee: @webassembly_token_identifier ref
+);
+
+webassembly_function_definition_def(
+  unique int id: @webassembly_function_definition,
+  int body: @webassembly_underscore_expression ref,
+  int prototype: @webassembly_underscore_prototype ref
+);
+
+#keyset[webassembly_function_prototype, index]
+webassembly_function_prototype_argument(
+  int webassembly_function_prototype: @webassembly_function_prototype ref,
+  int index: int ref,
+  unique int argument: @webassembly_token_identifier ref
+);
+
+webassembly_function_prototype_def(
+  unique int id: @webassembly_function_prototype,
+  int name: @webassembly_token_identifier ref
+);
+
+webassembly_initializer_expr(
+  unique int webassembly_initializer: @webassembly_initializer ref,
+  unique int expr: @webassembly_underscore_expression ref
+);
+
+webassembly_initializer_def(
+  unique int id: @webassembly_initializer,
+  int variable: @webassembly_token_identifier ref
+);
+
+webassembly_paren_expression_def(
+  unique int id: @webassembly_paren_expression,
+  int expr: @webassembly_underscore_expression ref
+);
+
+#keyset[webassembly_program, index]
+webassembly_program_statement(
+  int webassembly_program: @webassembly_program ref,
+  int index: int ref,
+  unique int statement: @webassembly_underscore_repl ref
+);
+
+webassembly_program_def(
+  unique int id: @webassembly_program
+);
+
+webassembly_unary_op_expression_def(
+  unique int id: @webassembly_unary_op_expression,
+  int operand: @webassembly_underscore_expression ref,
+  int operator: @webassembly_token_identifier ref
+);
+
+webassembly_unary_prototype_def(
+  unique int id: @webassembly_unary_prototype,
+  int argument: @webassembly_token_identifier ref,
+  int name: @webassembly_token_identifier ref
+);
+
+#keyset[webassembly_var_in_expression, index]
+webassembly_var_in_expression_initializer(
+  int webassembly_var_in_expression: @webassembly_var_in_expression ref,
+  int index: int ref,
+  unique int initializer: @webassembly_initializer ref
+);
+
+webassembly_var_in_expression_def(
+  unique int id: @webassembly_var_in_expression,
+  int expr: @webassembly_underscore_expression ref
+);
+
+webassembly_variable_expression_def(
+  unique int id: @webassembly_variable_expression,
+  int name: @webassembly_token_identifier ref
+);
+
+webassembly_tokeninfo(
+  unique int id: @webassembly_token,
+  int kind: int ref,
+  string value: string ref
+);
+
+case @webassembly_token.kind of
+  0 = @webassembly_reserved_word
+| 1 = @webassembly_token_identifier
+| 2 = @webassembly_token_line_comment
+| 3 = @webassembly_token_number
+;
+
+
+@webassembly_ast_node = @webassembly_binary_op_expression | @webassembly_binary_prototype | @webassembly_conditional_expression | @webassembly_external_declaration | @webassembly_for_expression | @webassembly_function_call_expression | @webassembly_function_definition | @webassembly_function_prototype | @webassembly_initializer | @webassembly_paren_expression | @webassembly_program | @webassembly_token | @webassembly_unary_op_expression | @webassembly_unary_prototype | @webassembly_var_in_expression | @webassembly_variable_expression
+
+@webassembly_ast_node_parent = @file | @webassembly_ast_node
+
+#keyset[parent, parent_index]
+webassembly_ast_node_info(
+  unique int node: @webassembly_ast_node ref,
+  int parent: @webassembly_ast_node_parent ref,
+  int parent_index: int ref,
+  int loc: @location_default ref
+);
+

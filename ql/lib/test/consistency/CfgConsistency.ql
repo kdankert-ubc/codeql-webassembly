@@ -1,1 +1,1 @@
-import codeql.kaleidoscope.Cfg::Consistency
+import codeql.webassembly.Cfg::Consistency

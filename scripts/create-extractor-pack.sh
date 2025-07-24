@@ -14,12 +14,12 @@ fi
 
 BIN_DIR=extractor/target/release
 
-"$BIN_DIR/kaleidoscope-extractor" generate --dbscheme ql/lib/kaleidoscope.dbscheme --library ql/lib/codeql/kaleidoscope/ast/internal/TreeSitter.qll
+"$BIN_DIR/webassembly-extractor" generate --dbscheme ql/lib/webassembly.dbscheme --library ql/lib/codeql/webassembly/ast/internal/TreeSitter.qll
 
-codeql query format -i ql/lib/codeql/kaleidoscope/ast/internal/TreeSitter.qll
+codeql query format -i ql/lib/codeql/webassembly/ast/internal/TreeSitter.qll
 
 rm -rf extractor-pack
 mkdir -p extractor-pack
-cp -r codeql-extractor.yml downgrades tools ql/lib/kaleidoscope.dbscheme ql/lib/kaleidoscope.dbscheme.stats extractor-pack/
+cp -r codeql-extractor.yml downgrades tools ql/lib/webassembly.dbscheme ql/lib/webassembly.dbscheme.stats extractor-pack/
 mkdir -p extractor-pack/tools/${platform}
-cp "$BIN_DIR/kaleidoscope-extractor" extractor-pack/tools/${platform}/kaleidoscope-extractor
+cp "$BIN_DIR/webassembly-extractor" extractor-pack/tools/${platform}/webassembly-extractor

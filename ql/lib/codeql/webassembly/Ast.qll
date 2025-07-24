@@ -1,5 +1,5 @@
-private import codeql.kaleidoscope.ast.internal.Ast
-private import codeql.kaleidoscope.ast.internal.TreeSitter
+private import codeql.webassembly.ast.internal.Ast
+private import codeql.webassembly.ast.internal.TreeSitter
 private import codeql.Locations
 
 final class AstNode instanceof AstNodeImpl {

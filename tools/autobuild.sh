@@ -1,3 +1,3 @@
 #!/bin/sh
 
-exec "${CODEQL_EXTRACTOR_KALEIDOSCOPE_ROOT}/tools/${CODEQL_PLATFORM}/kaleidoscope-extractor" autobuild
+exec "${CODEQL_EXTRACTOR_WEBASSEMBLY_ROOT}/tools/${CODEQL_PLATFORM}/webassembly-extractor" autobuild

@@ -2,14 +2,14 @@
  * @name Print AST
  * @description Produces a representation of a file's Abstract Syntax Tree.
  *              This query is used by the VS Code extension.
- * @id kaleidoscope/print-ast
+ * @id webassembly/print-ast
  * @kind graph
  * @tags ide-contextual-queries/print-ast
  */
 
-private import codeql.kaleidoscope.ideContextual.IDEContextual
-import codeql.kaleidoscope.ideContextual.printAst
-private import codeql.kaleidoscope.Ast
+private import codeql.webassembly.ideContextual.IDEContextual
+import codeql.webassembly.ideContextual.printAst
+private import codeql.webassembly.Ast
 
 /**
  * The source file to generate an AST from.

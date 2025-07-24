@@ -2,14 +2,14 @@
  * @name Print CFG
  * @description Produces a representation of a file's Control Flow Graph.
  *              This query is used by the VS Code extension.
- * @id kd/print-cfg
+ * @id wat/print-cfg
  * @kind graph
  * @tags ide-contextual-queries/print-cfg
  */
 
-private import codeql.kaleidoscope.Cfg
-private import codeql.kaleidoscope.Cfg::TestOutput
-private import codeql.kaleidoscope.ideContextual.IDEContextual
+private import codeql.webassembly.Cfg
+private import codeql.webassembly.Cfg::TestOutput
+private import codeql.webassembly.ideContextual.IDEContextual
 private import codeql.Locations
 
 /**

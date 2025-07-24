@@ -1,14 +1,14 @@
 /**
- * Provides queries to pretty-print an Kaleidoscope abstract syntax tree as a graph.
+ * Provides queries to pretty-print an webassembly abstract syntax tree as a graph.
  *
  * By default, this will print the AST for all nodes in the database. To change
  * this behavior, extend `PrintASTConfiguration` and override `shouldPrintNode`
  * to hold for only the AST nodes you wish to view.
  */
 
-private import codeql.kaleidoscope.Ast
-private import codeql.kaleidoscope.ast.internal.Ast
-private import codeql.kaleidoscope.ast.internal.TreeSitter
+private import codeql.webassembly.Ast
+private import codeql.webassembly.ast.internal.Ast
+private import codeql.webassembly.ast.internal.TreeSitter
 private import codeql.Locations
 
 /**
@@ -25,9 +25,9 @@ class PrintAstConfiguration extends string {
 
 newtype TPrintNode =
   TPrintRegularAstNode(AstNode n) { not n instanceof TDefaultStep } or
-  TPrintTreeSitterAstNode(Kaleidoscope::AstNode n) {
-    not n instanceof Kaleidoscope::LineComment and
-    not n instanceof Kaleidoscope::ReservedWord
+  TPrintTreeSitterAstNode(webassembly::AstNode n) {
+    not n instanceof webassembly::LineComment and
+    not n instanceof webassembly::ReservedWord
   }
 
 private predicate shouldPrintNode(PrintAstNode n) {
@@ -101,7 +101,7 @@ class PrintRegularAstNode extends PrintAstNode, TPrintRegularAstNode {
 
 /** An `AstNode` in the output tree. */
 class PrintTreeSitterAstNode extends PrintAstNode, TPrintTreeSitterAstNode {
-  Kaleidoscope::AstNode astNode;
+  webassembly::AstNode astNode;
 
   PrintTreeSitterAstNode() { this = TPrintTreeSitterAstNode(astNode) }
 
@@ -115,7 +115,7 @@ class PrintTreeSitterAstNode extends PrintAstNode, TPrintTreeSitterAstNode {
     exists(int i |
       name = i.toString() and
       result =
-        TPrintTreeSitterAstNode(rank[i](Kaleidoscope::AstNode child, Location l |
+        TPrintTreeSitterAstNode(rank[i](webassembly::AstNode child, Location l |
             child.getParent() = astNode and
             child.getLocation() = l
           |

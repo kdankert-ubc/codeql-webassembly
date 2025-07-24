@@ -1,0 +1,3 @@
+[submodule "tree-sitter-webassembly/tree-sitter-wasm"]
+	path = tree-sitter-webassembly/tree-sitter-wasm
+	url = git@github.com:wasm-lsp/tree-sitter-wasm.git

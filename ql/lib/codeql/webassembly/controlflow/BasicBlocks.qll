@@ -1,8 +1,8 @@
 /** Provides classes representing basic blocks. */
 
-private import codeql.kaleidoscope.Cfg
-private import codeql.kaleidoscope.ast.internal.Ast as Ast
-private import codeql.kaleidoscope.ast.internal.TreeSitter
+private import codeql.webassembly.Cfg
+private import codeql.webassembly.ast.internal.Ast as Ast
+private import codeql.webassembly.ast.internal.TreeSitter
 private import codeql.Locations
 
 /**
@@ -382,9 +382,9 @@ class ExitBasicBlock extends BasicBlock {
 }
 
 private module JoinBlockPredecessors {
-  private predicate id(Kaleidoscope::AstNode x, Kaleidoscope::AstNode y) { x = y }
+  private predicate id(webassembly::AstNode x, webassembly::AstNode y) { x = y }
 
-  private predicate idOf(Kaleidoscope::AstNode x, int y) = equivalenceRelation(id/2)(x, y)
+  private predicate idOf(webassembly::AstNode x, int y) = equivalenceRelation(id/2)(x, y)
 
   int getId(JoinBlockPredecessor jbp) {
     idOf(Ast::toTreeSitter(jbp.getFirstNode().(AstCfgNode).getAstNode()), result)

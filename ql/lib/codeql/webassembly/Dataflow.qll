@@ -1,7 +1,7 @@
 private import codeql.dataflow.DataFlow
-private import codeql.kaleidoscope.Ast
-private import codeql.kaleidoscope.Cfg as Cfg
-private import codeql.kaleidoscope.dataflow.Ssa as Ssa
+private import codeql.webassembly.Ast
+private import codeql.webassembly.Cfg as Cfg
+private import codeql.webassembly.dataflow.Ssa as Ssa
 private import codeql.Locations
 
 private module Private {
@@ -184,7 +184,7 @@ private module Public {
 
 private module LocalFlow {
   private import Public
-  private import codeql.kaleidoscope.controlflow.BasicBlocks
+  private import codeql.webassembly.controlflow.BasicBlocks
 
   private predicate localSsaFlowStepUseUse(Ssa::Definition def, ExprNode nodeFrom, ExprNode nodeTo) {
     def.adjacentReadPair(nodeFrom.getCfgNode(), nodeTo.getCfgNode())

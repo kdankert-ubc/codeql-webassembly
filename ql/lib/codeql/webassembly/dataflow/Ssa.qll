@@ -1,8 +1,8 @@
 private import codeql.ssa.Ssa as SsaLib
-private import codeql.kaleidoscope.controlflow.BasicBlocks
+private import codeql.webassembly.controlflow.BasicBlocks
 private import codeql.Locations
-private import codeql.kaleidoscope.Cfg as Cfg
-private import codeql.kaleidoscope.Ast
+private import codeql.webassembly.Cfg as Cfg
+private import codeql.webassembly.Ast
 
 private class Assignment extends AstNode {
   private Identifier variable;
@@ -29,7 +29,7 @@ private class Assignment extends AstNode {
 }
 
 private module Implementation implements SsaLib::InputSig {
-  import codeql.kaleidoscope.controlflow.BasicBlocks
+  import codeql.webassembly.controlflow.BasicBlocks
 
   BasicBlock getImmediateBasicBlockDominator(BasicBlock bb) { result = bb.getImmediateDominator() }
 

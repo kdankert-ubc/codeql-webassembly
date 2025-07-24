@@ -1,5 +1,5 @@
-# codeql-kaleidoscope
-CodeQL for LLVM Kaleidoscope.
+# codeql-webassembly
+CodeQL for LLVM WebAssembly.
 
 ## Setup 
 
@@ -14,7 +14,7 @@ CodeQL for LLVM Kaleidoscope.
 
 ```bash
 gh codeql database create \
-    --language=kaleidoscope --overwrite \
+    --language=webassembly --overwrite \
     --search-path $PWD/extractor-pack \
     --source-root ./testing/source \
     ./testing/database

@@ -23,8 +23,8 @@ pub fn run(options: Options) -> std::io::Result<()> {
         .init();
 
     let languages = vec![Language {
-        name: "Kaleidoscope".to_owned(),
-        node_types: tree_sitter_kaleidoscope::NODE_TYPES,
+        name: "WebAssembly".to_owned(),
+        node_types: tree_sitter_webassembly::NODE_TYPES,
     }];
 
     generate(languages, options.dbscheme, options.library)
